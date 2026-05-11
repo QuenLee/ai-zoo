@@ -1,0 +1,179 @@
+---
+// src/pages/docs/llm.astro
+import { generateImageUrl } from '../../lib/imageGen';
+import '../../styles/global.css';
+
+const post = {
+  title: '01. 猜词游戏：AI 是如何思考的？',
+  description: '别被“大语言模型”吓倒。它其实就是一个把“猜词游戏”玩到极致的超级高手。',
+  coverPrompt: 'A futuristic digital brain made of glowing data streams and neural networks, cyberpunk style, neon blue and purple, 8k resolution, cinematic lighting',
+  tags: ['LLM', 'AI 入门', '基础概念'],
+  lang: 'zh-CN'
+};
+
+const coverUrl = generateImageUrl(post.coverPrompt, 1200, 630, 456);
+---
+
+<!DOCTYPE html>
+<html lang={post.lang} class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{post.title}</title>
+    <meta name="description" content={post.description} />
+  </head>
+  <body class="antialiased bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    
+    <!-- 顶部导航 (内联 Layout 功能) -->
+    <nav class="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md">
+      <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+        <a href="/" class="text-xl font-bold hover:text-blue-600 transition-colors">AI 系列教程</a>
+        <div class="flex items-center gap-4">
+          <!-- 语言切换 -->
+          <div class="relative group">
+            <button class="flex items-center gap-1 text-sm font-medium hover:text-blue-600 transition-colors">
+              <span>{post.lang === 'zh-TW' ? '🇹🇼' : post.lang === 'en' ? '🇺🇸' : '🇨🇳'}</span>
+              <span class="hidden sm:block">{post.lang === 'zh-TW' ? '繁體' : post.lang === 'en' ? 'English' : '简体'}</span>
+            </button>
+          </div>
+          <!-- 主题切换 -->
+          <button id="theme-toggle" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+            <svg class="w-5 h-5 hidden dark:block text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+            <svg class="w-5 h-5 block dark:hidden text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8 pb-16">
+      <!-- 文章头图 -->
+      <div class="relative h-64 md:h-96 w-full rounded-2xl overflow-hidden mb-8 shadow-2xl group">
+        <img src={coverUrl} alt={post.title} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 p-6 md:p-10 text-white max-w-3xl">
+          <h1 class="text-3xl md:text-5xl font-bold mb-4 drop-shadow-lg">{post.title}</h1>
+          <div class="flex flex-wrap gap-3">
+            {post.tags.map((tag) => (
+              <span class="px-4 py-1.5 text-sm font-semibold bg-white/20 backdrop-blur-sm rounded-full border border-white/30">{tag}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <article class="prose max-w-3xl mx-auto">
+        <blockquote>
+          <p><strong>本章目标</strong>：读完这篇，你将明白 LLM（大语言模型）的本质。<br/>
+          <strong>核心类比</strong>：LLM = 一个读过全世界书的“微信输入法”。</p>
+        </blockquote>
+
+        <h2>一、悬念引入</h2>
+        <p>如果我说，你现在做的每一件事，都被一个看不见的“超级大脑”在暗中观察并预测，你信吗？</p>
+        <p>别紧张，这个“超级大脑”不是外星人，也不是政府监控，它可能就是你手机里的<strong>微信输入法</strong>。</p>
+
+        <div class="analogy-box">
+          <div class="analogy-title">🇨🇳 简体中文类比</div>
+          <p>想象一下，你在微信里打字，刚输入“今天天气真”，输入法立马弹出“好”。</p>
+          <p>它怎么知道的？因为它读过几亿条聊天记录，知道“真”后面大概率接“好”。</p>
+          <p><strong>LLM (大语言模型) 就是把这种能力放大了 一万倍</strong>。</p>
+        </div>
+
+        <div class="analogy-box">
+          <div class="analogy-title">🇹🇼 繁體中文類比</div>
+          <p>想像一下，你在 LINE 裡打字，剛輸入「今天天氣真」，輸入法立馬跳出「好」。</p>
+          <p>它怎麼知道的？因為它讀過幾億條對話記錄，知道「真」後面機率最大是接「好」。</p>
+          <p><strong>LLM 就是把這種能力放大了一萬倍</strong>。</p>
+        </div>
+
+        <div class="analogy-box">
+          <div class="analogy-title">🇺🇸 English Analogy</div>
+          <p>Think of the predictive text on your iPhone or Gmail. When you type "Meeting at", it suggests "3pm" or "5pm".</p>
+          <p><strong>An LLM is just that same "autocomplete" feature, but trained on almost the entire internet</strong>.</p>
+        </div>
+
+        <h2>二、核心概念</h2>
+        <p>LLM 不是神，它是一只<strong>“博学但爱吹牛的超级鹦鹉”</strong>。</p>
+        
+        <h3>动态图解</h3>
+        <div class="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 my-6">
+          <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-4">
+            <div class="bg-pink-100 dark:bg-pink-900 p-4 rounded-lg text-center w-full md:w-auto">
+              <div class="font-bold">游客投喂</div>
+              <div class="text-sm">床前明月__</div>
+            </div>
+            <div class="text-2xl">→</div>
+            <div class="bg-blue-100 dark:bg-blue-900 p-4 rounded-lg text-center w-full md:w-auto">
+              <div class="font-bold">LLM 大脑</div>
+              <div class="text-xs">计算概率...</div>
+            </div>
+            <div class="text-2xl">→</div>
+            <div class="bg-green-100 dark:bg-green-900 p-4 rounded-lg text-center w-full md:w-auto">
+              <div class="font-bold">输出</div>
+              <div class="text-sm">光</div>
+            </div>
+          </div>
+        </div>
+
+        <h2>三、实战演练</h2>
+        <div class="code-block-wrapper">
+          <div class="code-header">
+            <div class="code-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <span class="code-lang">Python</span>
+          </div>
+          <pre><code>import requests
+def feed_parrot(prompt):
+    return "光"
+print(feed_parrot("床前明月"))</code></pre>
+        </div>
+
+        <div class="mt-12 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800 text-center interactive">
+          <p class="text-blue-800 dark:text-blue-200 font-medium mb-2">🚀 系列教程进度：1/10 (10%)</p>
+          <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-full h-2.5 mb-4">
+            <div class="bg-blue-600 h-2.5 rounded-full" style="width: 10%"></div>
+          </div>
+          <a href="/" class="inline-block px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors font-semibold">
+            返回首页 →
+          </a>
+        </div>
+      </article>
+    </main>
+
+    <!-- 核心交互脚本 -->
+    <script>
+      const themeToggle = document.getElementById('theme-toggle');
+      const html = document.documentElement;
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        html.classList.add('dark');
+      }
+      themeToggle.addEventListener('click', () => {
+        if (html.classList.contains('dark')) {
+          html.classList.remove('dark');
+          localStorage.theme = 'light';
+        } else {
+          html.classList.add('dark');
+          localStorage.theme = 'dark';
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('a') || e.target.closest('button') || e.target.closest('.interactive')) {
+          const lang = document.documentElement.lang || 'zh-CN';
+          const isEn = lang === 'en';
+          const text = isEn ? '✨' : '❤️';
+          const color = isEn ? '#fbbf24' : '#ef4444';
+          const el = document.createElement('span');
+          el.textContent = text;
+          el.className = 'core-value-effect';
+          el.style.left = e.clientX + 'px';
+          el.style.top = e.clientY + 'px';
+          el.style.color = color;
+          document.body.appendChild(el);
+          setTimeout(() => el.remove(), 800);
+        }
+      });
+    </script>
+  </body>
+</html>

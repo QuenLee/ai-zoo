@@ -1,80 +1,88 @@
 ---
-import { animals } from '../data/animals.js';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import { generateImageUrl, getAnimalCoverPrompt } from '../lib/imageGen';
-import '../styles/global.css'; // 引入全局样式
 
-const getCoverUrl = (animalType) => {
-  const prompt = getAnimalCoverPrompt(animalType, 'cyberpunk');
-  return generateImageUrl(prompt, 800, 600, 123);
-};
+// 教程列表数据
+const tutorials = [
+  {
+    id: 'llm',
+    title: '01. 猜词游戏：AI 是如何思考的？',
+    description: '别被“大语言模型”吓倒。它其实就是一个把“猜词游戏”玩到极致的超级高手。',
+    icon: 'Lion',
+    animalType: 'lion',
+    tags: ['LLM', 'AI 入门', '基础'],
+  },
+  {
+    id: 'prompt',
+    title: '02. 提示词工程：如何让鹦鹉说人话？',
+    description: '为什么别人写的 Prompt 能出神作，你写的只能出废话？掌握这个公式，你也行。',
+    icon: 'Peacock',
+    animalType: 'peacock',
+    tags: ['Prompt', '实战', '技巧'],
+  },
+  {
+    id: 'image-gen',
+    title: '03. AI 绘画：从入门到入土',
+    description: 'Midjourney 和 Stable Diffusion 到底怎么选？看完这篇，不再花冤枉钱。',
+    icon: 'Ant',
+    animalType: 'ant',
+    tags: ['绘画', '工具', '避坑'],
+  },
+];
 ---
 
-<div class="min-h-screen py-12 px-4">
-  <!-- 标题区 -->
+<BaseLayout title="AI 系列教程 | 从入门到盈利" description="像追剧一样学 AI" lang="zh-CN">
+  
+  <!-- Hero 区域 -->
   <div class="text-center mb-16">
-    <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 glow-text drop-shadow-lg">
-      欢迎来到 AI 动物园
+    <h1 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+      AI 系列教程
     </h1>
-    <p class="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto leading-relaxed">
-      在这里，每个 AI 工具都是一只动物。<br/>
-      LLM 是爱吹牛的狮子，Midjourney 是绚丽的孔雀，Notion AI 是勤劳的蚂蚁。<br/>
-      快来认识它们，学会驯服它们，让它们为你打工！
+    <p class="text-xl md:text-2xl opacity-80 max-w-2xl mx-auto leading-relaxed">
+      像追剧一样学 AI。<br/>
+      拒绝枯燥术语，只用生活类比。<br/>
+      从“猜词游戏”开始，一步步揭开 AI 的神秘面纱。
     </p>
   </div>
 
-  <!-- 动物卡片网格 -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-    {animals.map((animal) => (
-      <a href={`/docs/${animal.id}`} class="group block h-full">
-        <div class="glass-card animal-card h-full flex flex-col relative overflow-hidden">
-          <div class="absolute inset-0 z-0">
+  <!-- 卡片网格 -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+    {tutorials.map((tutorial) => {
+      const coverUrl = generateImageUrl(getAnimalCoverPrompt(tutorial.animalType, 'cyberpunk'), 800, 600, 123);
+      return (
+        <a href={`/docs/${tutorial.id}`} class="card group block h-full">
+          <div class="relative h-48 overflow-hidden">
             <img 
-              src={getCoverUrl(animal.animalType)} 
-              alt={animal.name}
+              src={coverUrl} 
+              alt={tutorial.title}
               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               loading="lazy"
             />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
-          </div>
-
-          <div class="relative z-10 p-6 flex flex-col h-full justify-end">
-            <div class="text-5xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
-              <!-- 移除了 Emoji 图标，用文字代替或留空 -->
-              <span class="text-4xl font-bold text-yellow-400">{animal.icon}</span>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 p-6 text-white">
+              <h3 class="text-xl font-bold mb-1 group-hover:text-blue-400 transition-colors">{tutorial.title}</h3>
+              <p class="text-sm opacity-90 line-clamp-2">{tutorial.description}</p>
             </div>
-            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors">
-              {animal.name}
-            </h3>
-            <p class="text-white/80 mb-4 line-clamp-2">
-              {animal.description}
-            </p>
-            
+          </div>
+          <div class="p-6">
             <div class="flex flex-wrap gap-2 mb-4">
-              {animal.tags.map((tag) => (
-                <span class="px-3 py-1 text-xs font-semibold bg-white/20 backdrop-blur-sm rounded-full text-white border border-white/30">
+              {tutorial.tags.map((tag) => (
+                <span class="px-3 py-1 text-xs font-semibold bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full border border-blue-200 dark:border-blue-800">
                   {tag}
                 </span>
               ))}
             </div>
-
-            <div class="flex items-center justify-between text-white/90 text-sm">
-              <span>饲养难度：{animal.difficulty}</span>
-              <span class="flex items-center gap-2 group-hover:gap-3 transition-all">
-                查看档案 
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
+            <div class="flex items-center justify-between text-sm opacity-70">
+              <span>阅读时长：5 分钟</span>
+              <span class="flex items-center gap-1 group-hover:gap-2 transition-all">
+                开始阅读
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
               </span>
             </div>
           </div>
-        </div>
-      </a>
-    ))}
+        </a>
+      );
+    })}
   </div>
 
-  <div class="text-center mt-16">
-    <p class="text-white/80 mb-6">
-      更多神秘动物正在入驻中...
-    </p>
-  </div>
-</div>
+</BaseLayout>

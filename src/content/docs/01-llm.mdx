@@ -1,39 +1,58 @@
 ---
-title: '01 号动物：LLM (大语言模型)'
-description: '像逛动物园一样理解 LLM：它不是神，是一只博学但爱吹牛的超级鹦鹉'
-icon: 'Lion'
-animalType: 'lion'
-coverPrompt: 'A majestic lion made of glowing digital data streams and circuit boards, cyberpunk style, vibrant neon colors, 8k resolution, highly detailed'
-tags: ['LLM', '大语言模型', 'AI 入门', '零基础']
-difficulty: '中级'
+title: '01. 猜词游戏：AI 是如何思考的？'
+description: '别被“大语言模型”吓倒。它其实就是一个把“猜词游戏”玩到极致的超级高手。'
+lang: 'zh-CN'
+series: 'AI 入门'
+coverPrompt: 'A futuristic digital brain made of glowing data streams and neural networks, cyberpunk style, neon blue and purple, 8k resolution, cinematic lighting'
+tags: ['LLM', 'AI 入门', '基础概念']
+difficulty: '初级'
 ---
 
-# 01 号动物：LLM (大语言模型)
+# 01. 猜词游戏：AI 是如何思考的？
 
-> **园长寄语**：别被"大语言模型"这个词吓倒。把它想象成一只**读过全图书馆书的超级鹦鹉**。它很聪明，学舌极快，但有时候也会"一本正经地胡说八道"。
-
-## 1. 它是什么动物？
-
-LLM (Large Language Model) 是一种基于 Transformer 架构的深度学习模型。
-
-### 简体中文类比 (大陆游客区)
-> 想象一下你用微信打字，刚输入"今天天气真"，输入法立马弹出"好"。它怎么知道的？因为它读过几亿条聊天记录，知道"真"后面大概率接"好"。
+> **本章目标**：读完这篇，你将明白 LLM（大语言模型）的本质，并且再也不会被各种高大上的名词（Transformer, GPT, BERT）吓倒。
 >
-> **LLM 就是把这种能力放大了 一万倍**。它不仅会猜词，还会写诗、写代码、做数学题。本质上，它依然是在做**"概率预测"**。
+> **核心类比**：LLM = 一个读过全世界书的“微信输入法”。
 
-### 繁体中文类比 (港澳台游客区)
-> 想像一下你用 LINE 打字，剛輸入"今天天氣真"，輸入法立馬跳出"好"。它怎麼知道的？因為它讀過幾億條對話記錄，知道"真"後面機率最大是接"好"。
->
-> **LLM 就是把這種能力放大了一萬倍**。它不僅會猜詞，還會寫詩、寫 Code、做數學題。本質上，它依然是在做**"機率預測"**。
+---
 
-### 英文类比 (International Visitors)
-> Think of the predictive text on your iPhone or Gmail. When you type "Meeting at", it suggests "3pm" or "5pm". It's not magic; it's probability based on millions of emails.
->
-> **An LLM is just that same "autocomplete" feature, but trained on almost the entire internet**, allowing it to write essays, code, and poems. It's essentially doing **"probability prediction"**.
+## 一、悬念引入：你手机里就住着个“超级大脑”
 
-## 2. 动物习性图解 (Mermaid Chart)
+如果我说，你现在做的每一件事，都被一个看不见的“超级大脑”在暗中观察并预测，你信吗？
 
-LLM 是如何思考的？看这张"鹦鹉学舌"流程图：
+别紧张，这个“超级大脑”不是外星人，也不是政府监控，它可能就是你手机里的**微信输入法**。
+
+<div class="analogy-box">
+  <div class="analogy-title">🇨🇳 简体中文类比 (大陆游客区)</div>
+  <p>想象一下，你在微信里打字，刚输入“今天天气真”，输入法立马弹出“好”。</p>
+  <p>它怎么知道的？因为它读过几亿条聊天记录，知道“真”后面大概率接“好”，而不是“坏”或“棒”。</p>
+  <p><strong>LLM (大语言模型) 就是把这种能力放大了 一万倍</strong>。它不仅会猜词，还会写诗、写代码、做数学题。本质上，它依然是在做<strong>“概率预测”</strong>。</p>
+</div>
+
+<div class="analogy-box">
+  <div class="analogy-title">🇹🇼 繁體中文類比 (港澳台遊客區)</div>
+  <p>想像一下，你在 LINE 裡打字，剛輸入「今天天氣真」，輸入法立馬跳出「好」。</p>
+  <p>它怎麼知道的？因為它讀過幾億條對話記錄，知道「真」後面機率最大是接「好」。</p>
+  <p><strong>LLM 就是把這種能力放大了一萬倍</strong>。它不僅會猜詞，還會寫詩、寫 Code、做數學題。本質上，它依然是在做<strong>「機率預測」</strong>。</p>
+</div>
+
+<div class="analogy-box">
+  <div class="analogy-title">🇺🇸 English Analogy (International Visitors)</div>
+  <p>Think of the predictive text on your iPhone or Gmail. When you type "Meeting at", it suggests "3pm" or "5pm". It's not magic; it's probability based on millions of emails.</p>
+  <p><strong>An LLM is just that same "autocomplete" feature, but trained on almost the entire internet</strong>, allowing it to write essays, code, and poems. It's essentially doing <strong>"probability prediction"</strong>.</p>
+</div>
+
+---
+
+## 二、核心概念：LLM 的“思考”过程
+
+LLM 不是神，它是一只**“博学但爱吹牛的超级鹦鹉”**。
+
+它不会“思考”，它只会**“计算下一个字的概率”**。
+
+### 动态图解：LLM 是如何“造句”的？
+
+看下面这个流程图，当 LLM 看到“床前明月__”时，它的大脑里发生了什么：
 
 ```mermaid
 flowchart TD
@@ -60,20 +79,32 @@ flowchart TD
     style Parrot fill:#bbf,stroke:#333,stroke-width:4px,color:#000
     style Output fill:#9f9,stroke:#333,stroke-width:2px,color:#000
     style P1 fill:#ff9,stroke:#f66,stroke-width:2px,color:#000
-    style P2 fill:#ffe,stroke:#ccc,stroke-width:1px,color:#000
 ```
 
-**园长解读**：
-1.  你给提示词 (Prompt)。
+**园长（我）解读**：
+1.  你给提示词 (Prompt)：“床前明月__”。
 2.  LLM 根据训练数据，计算下一个字是所有汉字的概率。
-3.  它选择概率最高的那个字输出。
-4.  循环往复，直到生成整段话。
+3.  它选择概率最高的那个字输出：“光”。
+4.  循环往复，直到生成整首诗。
 
-## 3. 饲养员实战 (Python 调用)
+**所以，LLM 的“思考” = 疯狂计算概率。**
 
-想不想亲手喂一次这只"超级鹦鹉"？
+---
 
-```python
+## 三、实战演练：亲手喂一次“超级鹦鹉”
+
+光看不练假把式。我们写 3 行 Python 代码，亲自体验一下“概率预测”。
+
+<div class="code-block-wrapper">
+  <div class="code-header">
+    <div class="code-dots">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+    </div>
+    <span class="code-lang">Python</span>
+  </div>
+  <pre><code>
 # 这是一个简单的示例，展示如何调用 LLM
 # 假设我们使用一个虚构的简单接口
 
@@ -91,22 +122,43 @@ def feed_parrot(prompt):
 # 试试让它写诗
 print(feed_parrot("床前明月"))
 # 输出可能为：床前明月光，疑是地上霜...
-```
+  </code></pre>
+</div>
 
 > 💡 **园长推荐**：如果你没有 API Key，推荐去 [这里注册](YOUR_AFFILIATE_LINK_HERE) 获取免费额度，新用户送 $5，够你喂好几次！
 
-## 4. 饲养员避坑指南
+---
 
-1.  **盲目信任**：LLM 会"一本正经地胡说八道" (幻觉)。**重要信息必须核实！**
-2.  **隐私泄露**：不要把你的密码、公司机密发给它。数据一旦发出，就不再安全。
-3.  **提示词太烂**：你问得越模糊，它答得越离谱。学会写清晰的 Prompt 是基本功。
+## 四、避坑指南：别被它骗了！
 
-## 5. 下一步：驯兽师进阶
+LLM 会**“一本正经地胡说八道”**（术语叫“幻觉”）。
 
-恭喜你已经认识了 AI 动物园的明星居民！
-
-*   想学怎么让这只鹦鹉写出更好的诗？ -> **下一篇：《提示词工程：如何让鹦鹉说人话》**
-*   想看更绚丽的动物？ -> **前往：《02 号动物：Midjourney (孔雀)》**
+* **不要盲目信任**：它说“地球是平的”，不是因为它傻，是因为它训练数据里有人这么写。
+* **隐私泄露**：不要把你的密码、公司机密发给它。数据一旦发出，就不再安全。
+* **提示词太烂**：你问得越模糊，它答得越离谱。学会写清晰的 Prompt 是基本功。
 
 ---
-*本文首发于 [AI 动物园](https://zoo.quen.us.kg)，更多 AI 动物档案，欢迎关注。*
+
+## 五、悬念结尾：下一章是什么？
+
+恭喜你已经认识了 AI 世界的“超级鹦鹉”！
+
+但问题来了：
+* 如果它只是猜下一个字，那它是怎么写出**整首诗**、**整段代码**，甚至**整本小说**的？
+* 难道它不会写着写着就**跑题**吗？
+
+答案就在下一篇：**《02. 上下文的魔法：AI 的记忆力有多好？》**
+
+在那里，我们会揭开 LLM 的“记忆”秘密，看看它是如何做到“过目不忘”的。
+
+---
+
+<div class="mt-12 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800 text-center">
+  <p class="text-blue-800 dark:text-blue-200 font-medium mb-2">🚀 系列教程进度：1/10 (10%)</p>
+  <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-full h-2.5 mb-4">
+    <div class="bg-blue-600 h-2.5 rounded-full" style="width: 10%"></div>
+  </div>
+  <a href="/docs/prompt" class="inline-block px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors font-semibold">
+    继续阅读下一章：提示词工程 →
+  </a>
+</div>

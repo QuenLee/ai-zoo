@@ -1,0 +1,105 @@
+---
+// src/layouts/BaseLayout.astro
+import '../styles/global.css';
+
+const { title, description, lang = 'zh-CN' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang={lang} class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+SC:wght@400;600;700&family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body class="antialiased">
+    
+    <!-- 顶部导航 -->
+    <nav class="glass-nav px-4 py-3 flex items-center justify-between mb-8">
+      <a href="/" class="text-xl font-bold hover:text-blue-600 transition-colors">
+        AI 系列教程
+      </a>
+      
+      <div class="flex items-center gap-4">
+        <!-- 语言切换 -->
+        <div class="relative group">
+          <button class="flex items-center gap-1 text-sm font-medium hover:text-blue-600 transition-colors">
+            <span>{lang === 'zh-TW' ? '🇹🇼' : lang === 'en' ? '🇺🇸' : '🇨🇳'}</span>
+            <span class="hidden sm:block">{lang === 'zh-TW' ? '繁體' : lang === 'en' ? 'English' : '简体'}</span>
+          </button>
+          <div class="absolute right-0 mt-2 w-32 py-1 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-100 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all transform origin-top-right">
+            <a href="?lang=zh-CN" class="block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-700">简体中文</a>
+            <a href="?lang=zh-TW" class="block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-700">繁體中文</a>
+            <a href="?lang=en" class="block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-700">English</a>
+          </div>
+        </div>
+
+        <!-- 主题切换 -->
+        <button id="theme-toggle" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+          <!-- 太阳 -->
+          <svg class="w-5 h-5 hidden dark:block text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+          <!-- 月亮 -->
+          <svg class="w-5 h-5 block dark:hidden text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+        </button>
+      </div>
+    </nav>
+
+    <main class="container mx-auto px-4 pb-16">
+      <slot />
+    </main>
+
+    <footer class="text-center py-8 text-sm opacity-60 border-t border-gray-200 dark:border-gray-800">
+      <p>&copy; 2026 AI 系列教程。All rights reserved.</p>
+    </footer>
+
+    <!-- 核心交互脚本 -->
+    <script>
+      // 1. 主题切换
+      const themeToggle = document.getElementById('theme-toggle');
+      const html = document.documentElement;
+      
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        html.classList.add('dark');
+      }
+
+      themeToggle.addEventListener('click', () => {
+        if (html.classList.contains('dark')) {
+          html.classList.remove('dark');
+          localStorage.theme = 'light';
+        } else {
+          html.classList.add('dark');
+          localStorage.theme = 'dark';
+        }
+      });
+
+      // 2. 点击特效 (核心价值观)
+      document.addEventListener('click', (e) => {
+        // 只在点击链接或按钮时触发，避免满屏乱飞
+        if (e.target.closest('a') || e.target.closest('button') || e.target.closest('.interactive')) {
+          createEffect(e.clientX, e.clientY);
+        }
+      });
+
+      function createEffect(x, y) {
+        const lang = document.documentElement.lang || 'zh-CN';
+        const isEn = lang === 'en';
+        const text = isEn ? '✨' : '❤️'; // 英文星星，中文爱心
+        const color = isEn ? '#fbbf24' : '#ef4444';
+
+        const el = document.createElement('span');
+        el.textContent = text;
+        el.className = 'core-value-effect';
+        el.style.left = x + 'px';
+        el.style.top = y + 'px';
+        el.style.color = color;
+        
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 800);
+      }
+    </script>
+  </body>
+</html>
