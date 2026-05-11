@@ -1,4 +1,7 @@
-/* global.css - AI Zoo 绚丽风格 */ @tailwind base;
+/* global.css - AI Zoo 绚丽风格 (Tailwind v3) */
+
+/* Tailwind v3 指令 */
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
