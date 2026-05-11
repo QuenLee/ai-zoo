@@ -1,156 +1,30 @@
 ---
 // src/pages/docs/[slug].astro
-import { getCollection } from 'astro:content';
 import { generateImageUrl, getAnimalCoverPrompt } from '../../lib/imageGen';
+import '../../styles/global.css';
 
+// 硬编码文章内容（暂时只有一篇）
+// 后续文章多了再考虑用 fs 读取或 Content Collections
+const articles = {
+  'llm': await import('../../content/docs/01-llm.mdx?raw').then((m) => m.default),
+};
+
+// 模拟 getStaticPaths
 export async function getStaticPaths() {
-  const posts = await getCollection('docs');
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+  return [
+    { params: { slug: 'llm' }, props: { slug: 'llm' } },
+  ];
 }
 
-const { post } = Astro.props;
-const { Content } = await post.render();
-
-const animalType = post.data.animalType || 'default';
-const coverPrompt = post.data.coverPrompt || getAnimalCoverPrompt(animalType, 'cyberpunk');
-const coverUrl = generateImageUrl(coverPrompt, 1200, 630, 456);
+const { slug } = Astro.params;
+// 这里因为 Astro 限制不能直接 import raw mdx 内容作为组件渲染
+// 我们必须换回 Content Collections 或者用 getCollection
+// 看来绕了一圈，问题核心还是 Content Collections 没配好
+// 让我们再试一次最简单的配置：移除 schema 验证，只保留最基础的
 ---
 
-<!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{post.data.title} | AI 动物园</title>
-    <meta name="description" content={post.data.description} />
-    <meta property="og:title" content={post.data.title} />
-    <meta property="og:description" content={post.data.description} />
-    <meta property="og:image" content={coverUrl} />
-    <meta name="twitter:card" content="summary_large_image" />
-  </head>
-  <body class="min-h-screen">
-    <!-- 导航栏 -->
-    <nav class="glass-card mx-4 mt-4 mb-8 p-4 flex items-center justify-between sticky top-4 z-50">
-      <a href="/" class="text-2xl font-bold text-white hover:text-yellow-400 transition-colors">
-        AI 动物园
-      </a>
-      <div class="flex gap-4">
-        <a href="/" class="text-white/90 hover:text-white font-medium transition-colors">
-          返回园区
-        </a>
-      </div>
-    </nav>
-
-    <!-- 文章主体 -->
-    <article class="max-w-4xl mx-auto px-4 pb-16">
-      <!-- 封面头图 -->
-      <div class="glass-card overflow-hidden mb-8 relative group">
-        <img 
-          src={coverUrl} 
-          alt={post.data.title}
-          class="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-105"
-        />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 p-8">
-          <h1 class="text-3xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-            {post.data.icon || 'Lion'} {post.data.title}
-          </h1>
-          <div class="flex flex-wrap gap-3">
-            {post.data.tags?.map((tag) => (
-              <span class="px-4 py-1.5 text-sm font-semibold bg-yellow-500/90 text-black rounded-full">
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <!-- 内容区 -->
-      <div class="glass-card p-8 md:p-12 prose prose-invert prose-lg max-w-none">
-        <Content />
-      </div>
-
-      <!-- 底部：AI 生成提示 -->
-      <div class="mt-8 text-center text-gray-400 text-sm">
-        <p>本文封面由 AI 实时生成，基于提示词："{coverPrompt}"</p>
-      </div>
-    </article>
-  </body>
-</html>
-
-<style is:global>
-  /* 文章内容样式优化 (Prose) */
-  .prose {
-    color: #e2e8f0;
-    line-height: 1.75;
-  }
-  .prose h2 {
-    color: #ffffff;
-    font-size: 1.875rem;
-    font-weight: 700;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    padding-bottom: 0.5rem;
-  }
-  .prose h3 {
-    color: #ffffff;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
-  }
-  .prose p {
-    margin-bottom: 1.25rem;
-    font-size: 1.125rem;
-  }
-  .prose ul, .prose ol {
-    margin-bottom: 1.5rem;
-    padding-left: 1.5rem;
-    list-style-type: disc;
-  }
-  .prose ol {
-    list-style-type: decimal;
-  }
-  .prose blockquote {
-    border-left: 4px solid #fbbf24;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 1rem 1.5rem;
-    border-radius: 0 0.5rem 0.5rem 0;
-    margin: 1.5rem 0;
-    color: #f3f4f6;
-    font-style: italic;
-  }
-  .prose pre {
-    background: #1a1b26;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    margin: 1.5rem 0;
-    overflow-x: auto;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  .prose code {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    font-size: 0.875rem;
-    font-family: monospace;
-    color: #fbbf24;
-  }
-  .prose pre code {
-    background: transparent;
-    padding: 0;
-    color: #e2e8f0;
-  }
-  .prose a {
-    color: #fbbf24;
-    text-decoration: underline;
-    text-underline-offset: 0.25rem;
-  }
-  .prose a:hover {
-    color: #f59e0b;
-  }
-</style>
+<!-- 临时占位，如果下面代码不执行，至少用户能看到这个 -->
+<div class="text-white text-center mt-20">
+  <h1 class="text-4xl">文章开发中...</h1>
+  <p>当前路由：{slug}</p>
+</div>

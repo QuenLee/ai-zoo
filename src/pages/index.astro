@@ -1,6 +1,7 @@
 ---
 import { animals } from '../data/animals.js';
 import { generateImageUrl, getAnimalCoverPrompt } from '../lib/imageGen';
+import '../styles/global.css'; // 引入全局样式
 
 const getCoverUrl = (animalType) => {
   const prompt = getAnimalCoverPrompt(animalType, 'cyberpunk');
