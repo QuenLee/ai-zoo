@@ -60,10 +60,7 @@ const getCoverUrl = (animalType: string) => {
   <!-- 动物卡片网格 -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
     {animals.map((animal) => (
-      <a 
-        href={`/docs/${animal.id}`} 
-        class="group block h-full"
-      >
+      <a href={`/docs/${animal.id}`} class="group block h-full">
         <div class="glass-card animal-card h-full flex flex-col relative overflow-hidden">
           {/* 背景图：AI 生成 */}
           <div class="absolute inset-0 z-0">
@@ -112,7 +109,7 @@ const getCoverUrl = (animalType: string) => {
     ))}
   </div>
 
-  {/* 底部 CTA */}
+  <!-- 底部 CTA -->
   <div class="text-center mt-16">
     <p class="text-white/80 mb-6">
       更多神秘动物正在入驻中... 🦒🦓🦊
