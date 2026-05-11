@@ -9,17 +9,19 @@ const getCoverUrl = (animalType) => {
 ---
 
 <div class="min-h-screen py-12 px-4">
+  <!-- 标题区 -->
   <div class="text-center mb-16">
     <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 glow-text drop-shadow-lg">
-      🦁 欢迎来到 AI 动物园
+      欢迎来到 AI 动物园
     </h1>
     <p class="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto leading-relaxed">
-      别被 AI 吓倒！在这里，每个 AI 工具都是一只动物。<br/>
-      LLM 是爱吹牛的狮子 🦁，Midjourney 是绚丽的孔雀 🦚，Notion AI 是勤劳的蚂蚁 🐜...<br/>
+      在这里，每个 AI 工具都是一只动物。<br/>
+      LLM 是爱吹牛的狮子，Midjourney 是绚丽的孔雀，Notion AI 是勤劳的蚂蚁。<br/>
       快来认识它们，学会驯服它们，让它们为你打工！
     </p>
   </div>
 
+  <!-- 动物卡片网格 -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
     {animals.map((animal) => (
       <a href={`/docs/${animal.id}`} class="group block h-full">
@@ -36,7 +38,8 @@ const getCoverUrl = (animalType) => {
 
           <div class="relative z-10 p-6 flex flex-col h-full justify-end">
             <div class="text-5xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
-              {animal.icon}
+              <!-- 移除了 Emoji 图标，用文字代替或留空 -->
+              <span class="text-4xl font-bold text-yellow-400">{animal.icon}</span>
             </div>
             <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors">
               {animal.name}
@@ -70,7 +73,7 @@ const getCoverUrl = (animalType) => {
 
   <div class="text-center mt-16">
     <p class="text-white/80 mb-6">
-      更多神秘动物正在入驻中... 🦒🦓🦊
+      更多神秘动物正在入驻中...
     </p>
   </div>
 </div>

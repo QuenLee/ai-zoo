@@ -14,7 +14,6 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await post.render();
 
-// 获取封面图
 const animalType = post.data.animalType || 'default';
 const coverPrompt = post.data.coverPrompt || getAnimalCoverPrompt(animalType, 'cyberpunk');
 const coverUrl = generateImageUrl(coverPrompt, 1200, 630, 456);
@@ -36,10 +35,10 @@ const coverUrl = generateImageUrl(coverPrompt, 1200, 630, 456);
     <!-- 导航栏 -->
     <nav class="glass-card mx-4 mt-4 mb-8 p-4 flex items-center justify-between sticky top-4 z-50">
       <a href="/" class="text-2xl font-bold text-white hover:text-yellow-400 transition-colors">
-        🦁 AI 动物园
+        AI 动物园
       </a>
       <div class="flex gap-4">
-        <a href="/" class="text-gray-200 hover:text-white font-medium transition-colors">
+        <a href="/" class="text-white/90 hover:text-white font-medium transition-colors">
           返回园区
         </a>
       </div>
@@ -57,10 +56,10 @@ const coverUrl = generateImageUrl(coverPrompt, 1200, 630, 456);
         <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
         <div class="absolute bottom-0 left-0 p-8">
           <h1 class="text-3xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
-            {post.data.icon || '🦁'} {post.data.title}
+            {post.data.icon || 'Lion'} {post.data.title}
           </h1>
           <div class="flex flex-wrap gap-3">
-            {post.data.tags?.map((tag: string) => (
+            {post.data.tags?.map((tag) => (
               <span class="px-4 py-1.5 text-sm font-semibold bg-yellow-500/90 text-black rounded-full">
                 {tag}
               </span>
@@ -70,45 +69,88 @@ const coverUrl = generateImageUrl(coverPrompt, 1200, 630, 456);
       </div>
 
       <!-- 内容区 -->
-      <div class="glass-card p-8 md:p-12">
+      <div class="glass-card p-8 md:p-12 prose prose-invert prose-lg max-w-none">
         <Content />
       </div>
 
       <!-- 底部：AI 生成提示 -->
       <div class="mt-8 text-center text-gray-400 text-sm">
-        <p>✨ 本文封面由 AI 实时生成，基于提示词："{coverPrompt}"</p>
+        <p>本文封面由 AI 实时生成，基于提示词："{coverPrompt}"</p>
       </div>
     </article>
   </body>
 </html>
 
 <style is:global>
-  /* 文章内容样式优化 */
+  /* 文章内容样式优化 (Prose) */
   .prose {
-    @apply text-gray-200 leading-relaxed;
+    color: #e2e8f0;
+    line-height: 1.75;
   }
   .prose h2 {
-    @apply text-3xl font-bold text-white mt-12 mb-6 border-b border-white/20 pb-2;
+    color: #ffffff;
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 0.5rem;
   }
   .prose h3 {
-    @apply text-2xl font-semibold text-white mt-8 mb-4;
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
   }
   .prose p {
-    @apply mb-4 text-lg;
+    margin-bottom: 1.25rem;
+    font-size: 1.125rem;
   }
   .prose ul, .prose ol {
-    @apply mb-6 ml-6 list-disc list-inside text-lg;
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+    list-style-type: disc;
+  }
+  .prose ol {
+    list-style-type: decimal;
   }
   .prose blockquote {
-    @apply border-l-4 border-yellow-500 bg-white/10 p-4 rounded-r-lg my-6 text-white italic;
+    border-left: 4px solid #fbbf24;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem 1.5rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+    margin: 1.5rem 0;
+    color: #f3f4f6;
+    font-style: italic;
   }
   .prose pre {
-    @apply bg-gray-900/80 rounded-lg p-4 my-6 overflow-x-auto border border-white/10;
+    background: #1a1b26;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
   .prose code {
-    @apply bg-white/20 px-2 py-1 rounded text-sm font-mono text-yellow-300;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-family: monospace;
+    color: #fbbf24;
   }
   .prose pre code {
-    @apply bg-transparent p-0 text-white;
+    background: transparent;
+    padding: 0;
+    color: #e2e8f0;
+  }
+  .prose a {
+    color: #fbbf24;
+    text-decoration: underline;
+    text-underline-offset: 0.25rem;
+  }
+  .prose a:hover {
+    color: #f59e0b;
   }
 </style>
